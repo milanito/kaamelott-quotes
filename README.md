@@ -14,6 +14,26 @@ $ yarn add kaamelott-quotes
 
 and then use it like this
 
+### Usage with fetching
+
+Use it like this if you want to fetch [WikiQuote](https://fr.wikiquote.org/wiki/Kaamelott)
+
+```
+const randomQuote = require('kaamelott-quotes')
+
+const start = async () => {
+  const quote = await randomQuote(true)
+
+  // Use the quote
+}
+
+start()
+```
+
+### Usage without fetching
+
+Use it like this if you do not want to fetch [WikiQuote](https://fr.wikiquote.org/wiki/Kaamelott)
+
 ```
 const randomQuote = require('kaamelott-quotes')
 
