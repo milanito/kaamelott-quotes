@@ -1,29 +1,15 @@
-const fs = require('fs')
-const path = require('path')
-// eslint-disable-next-line
-const pug = require('pug')
-// eslint-disable-next-line
-const faker = require('faker')
-const axios = require('axios')
+const { includes } = require('lodash')
+
 const randomQuote = require('../src')
-
-const wikifile = path.resolve(__dirname, 'assets', 'wiki.pug')
-
-jest.mock('axios')
+const quotesFiles = require('../src/assets/quotes.json')
 
 describe('Kaamelott quotes', () => {
   describe('Success cases', () => {
     it('return random quote when asked', async () => {
-      const quote = faker.lorem.sentence()
-      const pugFile = await fs.promises.readFile(wikifile, 'utf8')
-
-      axios.get.mockImplementation(() => ({
-        data: pug.render(pugFile, { quote })
-      }))
+      const { quotes } = quotesFiles
 
       const rQuote = await randomQuote()
-      expect(rQuote).toEqual(quote)
-      console.log(quote)
+      expect(includes(quotes, rQuote)).toEqual(true)
     })
   })
 })

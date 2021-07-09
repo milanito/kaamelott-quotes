@@ -1,26 +1,9 @@
-const axios = require('axios')
-const cheerio = require('cheerio')
-const { replace, shuffle, random, nth, size } = require('lodash')
+const { shuffle, random, nth, size } = require('lodash')
 
-const { QUOTES_URL } = require('./config')
-
-const getQuotes = ($) => {
-  const quotes = []
-
-  $('.citation').each((_, elem) => {
-    const text = $(elem).text()
-    quotes.push(replace(text, /\(.*\)[ \n]/g, ''))
-  })
-
-  return quotes
-}
+const quotesFiles = require('./assets/quotes.json')
 
 const randomQuote = async () => {
-  const { data } = await axios.get(QUOTES_URL)
-
-  const $ = cheerio.load(data)
-
-  const quotes = getQuotes($)
+  const { quotes } = quotesFiles
 
   return nth(shuffle(quotes), random(size(quotes)))
 }

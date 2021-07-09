@@ -14,6 +14,7 @@ module.exports = {
     'jest'
   ],
   rules: {
+    "node/shebang": "off"
   },
   settings: {
   },
