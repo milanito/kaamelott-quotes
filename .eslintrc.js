@@ -1,21 +1,36 @@
 module.exports = {
   env: {
+    es2020: true,
     'jest/globals': true
   },
   extends: [
-    'standard',
-    'plugin:node/recommended'
+    'standard-with-typescript'
   ],
   parserOptions: {
-    ecmaVersion: 2020,
+    project: './tsconfig.json',
+    ecmaFeatures: {
+      jsx: true
+    },
+    ecmaVersion: 11,
     sourceType: 'module'
   },
   plugins: [
     'jest'
   ],
   rules: {
-    "node/shebang": "off"
+    '@typescript-eslint/restrict-template-expressions': ['error', { allowAny: true }]
   },
   settings: {
+    react: {
+      version: 'detect'
+    }
   },
+  overrides: [{
+    files: [
+      '**/*.stories.*'
+    ],
+    rules: {
+      'import/no-anonymous-default-export': 'off'
+    }
+  }]
 }

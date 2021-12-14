@@ -1,18 +1,20 @@
-const fs = require('fs')
-const path = require('path')
+import fs from 'fs'
 // eslint-disable-next-line
-const pug = require('pug')
+import pug from 'pug'
+import path from 'path'
 // eslint-disable-next-line
-const faker = require('faker')
-const axios = require('axios')
-const { includes } = require('lodash')
+import faker from 'faker'
+import axios from 'axios'
+import { includes } from 'lodash'
 
-const randomQuote = require('../src')
-const quotesFiles = require('../src/assets/quotes.json')
+import randomQuote from '../src'
+import quotesFiles from '../src/assets/quotes.json'
+
+jest.mock('axios')
 
 const wikifile = path.resolve(__dirname, 'assets', 'wiki.pug')
 
-jest.mock('axios')
+const mockedAxios = axios as jest.Mocked<typeof axios>
 
 describe('Kaamelott quotes', () => {
   describe('Success cases', () => {
@@ -27,8 +29,16 @@ describe('Kaamelott quotes', () => {
       const quote = faker.lorem.sentence()
       const pugFile = await fs.promises.readFile(wikifile, 'utf8')
 
-      axios.get.mockImplementation(() => ({
-        data: pug.render(pugFile, { quote })
+      mockedAxios.get.mockImplementation((): Promise<any> => new Promise((resolve, reject) => {
+        try {
+          const data: string = pug.render(pugFile, { quote })
+
+          return resolve({
+            data
+          })
+        } catch (err) {
+          return reject(err)
+        }
       }))
 
       const rQuote = await randomQuote(true)
