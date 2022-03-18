@@ -10,7 +10,7 @@ type CheerioAPI = ReturnType<typeof load>
 const getFetchedQuotes = ($: CheerioAPI): string[] => {
   const quotes: string[] = []
 
-  $('.citation').each((_: number, elem: Element) => {
+  $('.citation').each((_, elem) => {
     const text = $(elem).text()
 
     quotes.push(replace(text, /\(.*\)[ \n]/g, ''))
